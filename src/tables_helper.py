@@ -1,6 +1,6 @@
 
 import pandas as pd
-from .cohort import Spiredf
+from .spire import Spiredf
 
 def get_num_uniq_pts(df):
     return df[Spiredf.ptid].nunique()
