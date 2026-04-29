@@ -1,0 +1,8 @@
+var_name	path	statistic
+unique pt count		count_unique_pts
+ICD T2D 	/dx/t2d	count_unique_pts
+ICD T2D incident	/dx_inc/t2d	count_unique_pts
+hba1c ordered	/order/t2d/hba1c_order	count_unique_pts
+hba1c result	/lab/t2d/hba1c  count_unique_pts
+hba1c value	/lab/t2d/hba1c  micro_mean
+Metformin order /meds/t2d/metformin count_unique_pts
