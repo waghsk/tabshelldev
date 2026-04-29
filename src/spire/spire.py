@@ -4,7 +4,7 @@
 
 import pandas as pd
 from loguru import logger
-import sys
+import sys,json
 from pathlib import Path
 class Spiredf():
     instances={}
@@ -56,12 +56,10 @@ class Spiredf():
         name=name.lower()
         logger.info(f"looking for name:{name} in {list(Spiredf.instances.keys())}")
         if not name in Spiredf.instances.keys():
-            #curr_module=sys.modules[__name__]
             curr_module=sys.modules.get("__main__")
-            #all_funcs=[x for x in inspect.getmembers(inspect.isfunction) if name in x]
             all_funcs = []
            
-            for mod in list(sys.modules.values()).copy():#curr_module]:#sys.modules.values():
+            for mod in list(sys.modules.values()).copy():
                 if mod is None:
                     continue
                 try:
@@ -69,18 +67,15 @@ class Spiredf():
                 except Exception as e:
                     pass
 
-            #logger.trace(f"all_funcs:{all_funcs}")
             for f in all_funcs:
                 if f[0].startswith('get_') and\
                     f[0].lower()==f"get_{name}".lower():
-                        logger.info(f"calling func: {f[0]}")
-                        f[1]()
-                        #Spiredf(name=name,df=f[1]())
-        logger.info(f" after init {name} cls.instances: {list(cls.instances.keys())}")
-        logger.info(f" after init {name} Spiredf.instances: {list(Spiredf.instances.keys())}")
-        return Spiredf.instances[name]
-                
-    
+                    logger.info(f"from get calling func: {f[0]}")
+                    f[1]()
+                    break
+        
+        return Spiredf.instances.get(name)
+
     def __str__(self):
         d= {'name':f"{self.name}",'ptids':f"{set(self.df[Spiredf.ptid])}"}
         d['parents']=[str(x.name) for x in self.parents]
