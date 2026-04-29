@@ -1,4 +1,34 @@
+#%%
+%reload_ext autoreload
+%autoreload 2
+import sys
+from pathlib import Path
+# Handle script vs Jupyter
+try:
+    base_dir = Path(__file__).resolve().parent
+except NameError:
+    base_dir = Path.cwd()
+
+# This directory must CONTAIN `utils/`
+project_root = base_dir.parent
+
+lib_path = base_dir.parent.parent/'src' #/ 'emerge_helper_od'
+sys.path.insert(0, str(lib_path))
+
+print(f"lib_path: {lib_path}")
 import pandas as pd
+import json,sys
+
+from loguru import logger
+logger.remove()
+logger.add(
+    sys.stdout,
+    #format="<level>{level}</level> | {message}"
+)
+from spire.spire import Spiredf, derived
+#%%
+
+
 
 @derived
 def get_screened(selected):
@@ -42,3 +72,7 @@ def test_parent_tree():
     get_enrolled()
     get_dropped()
     return Spiredf.get('enrolled').draw_parent_tree()
+
+
+Spiredf.get("screened")
+# %%

@@ -1,32 +1,11 @@
 #%%
 #%reload_ext autoreload
 #%autoreload 2
+
+import pandas as pd
+from loguru import logger
 import sys
 from pathlib import Path
-# Handle script vs Jupyter
-try:
-    base_dir = Path(__file__).resolve().parent
-except NameError:
-    base_dir = Path.cwd()
-
-# This directory must CONTAIN `utils/`
-project_root = base_dir.parent
-
-lib_path = base_dir.parent.parent  #/ 'emerge_helper_od'
-sys.path.insert(0, str(lib_path))
-
-print(f"lib_path: {lib_path}")
-import pandas as pd
-import json,sys
-
-from loguru import logger
-logger.remove()
-logger.add(
-    sys.stdout,
-    #format="<level>{level}</level> | {message}"
-)
-
-
 class Spiredf():
     instances={}
     find_counter=0

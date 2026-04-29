@@ -1,0 +1,5 @@
+ptid,start_date,code_system,code,concept_name
+p1,1-1-2021,icd10,I10, Essential (primary) hypertension
+p1,1-1-2020,icd10,E11.9, Type 2 diabetes mellitus without complications
+p2,1-1-2010,icd10,J02.9, Acute pharyngitis\, unspecified
+p2,10-1-2012,icd10,M54.2, Cervicalgia (neck pain)R53.83: Other malaise (fatigue)

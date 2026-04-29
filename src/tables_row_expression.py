@@ -80,9 +80,3 @@ class TableDefinition():
                 raise ValueError(f"Unknown statistic: {stat}")
 
 
-
-
-
-# %%
-
-# %%
