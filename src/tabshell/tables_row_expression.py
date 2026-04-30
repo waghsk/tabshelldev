@@ -7,6 +7,8 @@ from spire.spire import Spiredf
 import glob
 from pathlib import Path
 
+from tabshell.ont import Ont
+
 class TableRow():
 
     def __init__(self,exp):
@@ -61,11 +63,14 @@ class TableDefinition():
             _row=[var_name,path,statistic]
             for c in self.cols['cohort']:      
                 try:
-                    slice=Spiredf.get(c).df
+                    _df=Spiredf.get(c).df
                     if pd.notna(path) and path!='nan':
-                        slice=slice.query(path)
-                    logger.debug(f"{c} {var_name} {len(slice)}")
-                    value=self.compute_cell_tab(c,r,df=slice)
+                        index=[]
+                        for concept in Ont(self.paths).get_concepts(path):
+                            if concept in _df.columns:
+                                index.extend(_df[_df[concept] == True].index)
+                    logger.debug(f"{c} {var_name} {len(_df)}")
+                    value=self.compute_cell_tab(c,r,df=_df.loc[index] if len(index)>0 else pd.DataFrame(columns=_df.columns))
                     _row.append( value)
                 except Exception as e:
                     logger.error(e)
