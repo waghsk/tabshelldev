@@ -68,7 +68,7 @@ class TableDefinition():
                         index=[]
                         for concept in Ont(self.paths).get_concepts(path):
                             if concept in _df.columns:
-                                index.extend(_df[_df[concept] == True].index)
+                                index=list(set(index.extend(_df[_df[concept] == True].index)))
                     logger.debug(f"{c} {var_name} {len(_df)}")
                     value=self.compute_cell_tab(c,r,df=_df.loc[index] if len(index)>0 else pd.DataFrame(columns=_df.columns))
                     _row.append( value)
