@@ -1,4 +1,4 @@
-from .cohort import Spiredf,derived
+from spire.spire import Spiredf,derived
 from .tables_helper import series_type,get_num_uniq_pts
 import pandas as pd
 import numpy as np

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from .cohort import Spiredf,derived
-from .tables import Table
+from .table import Table
 from loguru import logger
 from .tables_helper import series_type
 
