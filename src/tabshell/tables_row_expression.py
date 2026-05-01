@@ -63,17 +63,22 @@ class TableDefinition():
             _row=[var_name,path,statistic]
             for c in self.cols['cohort']:      
                 try:
+                    #logger.debug(f"searching for {c} in {Spiredf.instances.keys()}")
                     _df=Spiredf.get(c).df
                     if pd.notna(path) and path!='nan':
                         index=[]
+                        #logger.debug(f"concepts:{Ont(self.paths).get_concepts(path)}")
                         for concept in Ont(self.paths).get_concepts(path):
                             if concept in _df.columns:
-                                index=list(set(index.extend(_df[_df[concept] == True].index)))
+                                #logger.debug(f"concept found: {concept}")
+                                index.extend(_df[_df[concept] == True].index)
+                                #logger.debug(f"index:{index}")
                     logger.debug(f"{c} {var_name} {len(_df)}")
-                    value=self.compute_cell_tab(c,r,df=_df.loc[index] if len(index)>0 else pd.DataFrame(columns=_df.columns))
+                    index=list(set(index))
+                    value=self.compute_cell_tab(c,r,df=_df.loc[index] if len(index)>0 else pd.DataFrame(columns=_df.columns),full_df=_df)
                     _row.append( value)
                 except Exception as e:
-                    logger.error(e)
+                    logger.error(f"Error1:{e}")
                     _row.append('E')
 
             arr.append(_row)
@@ -81,13 +86,15 @@ class TableDefinition():
         t=pd.DataFrame(arr,columns=['var_name','path','statistic']+list(self.cols['cohort']))
         return t
     
-    def compute_cell_tab(self,c,r,df):
+    def compute_cell_tab(self,c,r,df,full_df):
         logger.debug(f"r['statistic']:{r['statistic']}")        
         stat = r["statistic"]
 
         match stat:
             case "count_unique_pts":
                 return df[Spiredf.ptid].nunique()
+            case "proportion_unique_pts":
+                return df[Spiredf.ptid].nunique()/full_df[Spiredf.ptid].nunique()
             case "count_rows":
                 return len(df)
             case "micro_mean":
